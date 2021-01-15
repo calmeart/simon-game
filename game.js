@@ -2,6 +2,7 @@ var buttonColors = ["red", "blue", "green", "yellow"];
 var gamePattern = [];
 var userClickedPattern = [];
 var count = 0;
+var bodyWidth = $("body")[0].clientWidth;
 
 function nextSequence() {
   var randomNumber = Math.floor(Math.random() * 4);
@@ -25,7 +26,11 @@ function gameOver() {
   gamePattern = [];
   userClickedPattern = [];
   count = 0;
-  $("h1").text("Game Over, Press Any Key to Restart!");
+  if (bodyWidth < 1000) {
+    $("h1").text("Game Over, Press Start Button to Restart!");
+  } else {
+    $("h1").text("Game Over, Press Any Key to Restart!");
+  }
 }
 
 function animateButton(color) {
@@ -52,8 +57,18 @@ $(".btn").click(function(event) {
   }
 })
 
-$(document).keypress(function(event) {
-  if (!gamePattern[0]) {
-    nextSequence();
-  }
-})
+if (bodyWidth < 1000) {
+  $("h1").text("Click Start Button to Start the Game");
+  $(".container").after('<button class="mobile-button" type="button" name="button">Start Button</button>')
+  $(".mobile-button").click(function(event) {
+    if (!gamePattern[0]) {
+      nextSequence();
+    }
+  })
+} else {
+  $(document).keypress(function(event) {
+    if (!gamePattern[0]) {
+      nextSequence();
+    }
+  })
+}
